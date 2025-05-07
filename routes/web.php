@@ -6,7 +6,21 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('testing',function(){
-    return view('test');
+
+Route::get('navbar',function(){
+    return view('navbar');
+    
+});
+
+Route::get('about',function(){
+    return view('about');
+
+});
+Route::get('contact',function(){
+    return view('contact');
+
+});
+Route::get('profile',function(){
+    return view('profile');
 
 });
