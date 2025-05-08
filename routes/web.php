@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Transac;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -23,10 +24,6 @@ Route::get('contact',function(){
     return view('contact');
 
 });
-Route::get('profile',function(){
-    return view('profile');
-
-});
 
 
 //Store
@@ -46,7 +43,7 @@ Route::post('/users', function (Request $request) {
     return redirect('/')->with('success', 'User created successfully!');
 });
 
-//show
+//SHOW
 Route::get('/profile', function () {
     $users = User::all();
     return view('profile', compact('users'));
@@ -74,9 +71,69 @@ Route::put('/users/{id}', function (Request $request, $id) {
     return redirect('/profile')->with('success', 'User updated successfully!');
 });
 
-//DELETE 
+//DELETE user
 Route::delete('/users/{id}', function ($id) {
     $user = User::findOrFail($id);
     $user->delete();
     return redirect('/profile')->with('success', 'User deleted successfully!');
+});
+
+
+
+//show in dropdown
+Route::get('/trans', function () {
+    $users = User::all();
+    return view('trans', compact('users'));
+});
+
+//show transaction
+Route::get('/viewtrans', function () {
+    $users = Transac::all();
+    return view('viewtrans', compact('users'));
+});
+
+
+//Store transaction
+Route::post('/trans/store', function (Request $request) {
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'details'=>'required',
+    ]);
+
+    Transac::create([
+        'name' => $request->input('name'),
+        'details' => $request->input('details'),
+        
+    ]);
+
+    return redirect('trans')->with('success', 'User created successfully!');
+});
+
+//edit transaction
+Route::get('/users/{id}/edittrans', function ($id) {
+    $user = Transac::findOrFail($id); // Fetch the user by ID
+    return view('edittrans', compact('user')); // Pass user data to the view
+});
+
+// Update the transaction
+Route::put('/users/{id}', function (Request $request, $id) {
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'details' => 'required' ,
+    ]);
+
+    $user = Transac::findOrFail($id);
+    $user->update([
+        'name' => $request->input('name'),
+        'details' => $request->input('details'),
+    ]);
+
+    return redirect('/viewtrans')->with('success', 'U updated successfully!');
+});
+
+//delete transaction
+Route::delete('/users/{id}', function ($id) {
+    $user = Transac::findOrFail($id);
+    $user->delete();
+    return redirect('/viewtrans')->with('success', ' deleted successfully!');
 });
