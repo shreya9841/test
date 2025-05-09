@@ -1,10 +1,13 @@
 <?php
 
+use App\Http\Controllers\DetailsController;
 use App\Models\Transac;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\TransactionController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -25,115 +28,33 @@ Route::get('contact',function(){
 
 });
 
+//USER
+Route::get('/profile', [UserController::class, 'index']);
+Route::get('/users/create', [UserController::class, 'create']);
+Route::post('/users', [UserController::class, 'store']);
+Route::get('/users/{id}/edit', [UserController::class, 'edit']);
+Route::put('/users/{id}', [UserController::class, 'update']);
+Route::delete('/users/{id}', [UserController::class, 'destroy']);
 
-//Store
-Route::post('/users', function (Request $request) {
-    $request->validate([
-        'user' => 'required|string|max:255',
-        'email' => 'required|email|unique:users,email',
-        'password' => 'required|string|min:6',
-    ]);
+//TRANSACTION
 
-    User::create([
-        'name' => $request->input('user'),
-        'email' => $request->input('email'),
-        'password' => Hash::make($request->input('password')),
-    ]);
+// Display transaction form
+Route::get('/trans', [TransactionController::class, 'create']);
+// Store transaction
+Route::post('/trans/store', [TransactionController::class, 'store']);
+// View all transactions
+Route::get('/viewtrans', [TransactionController::class, 'index']);
+// Edit transaction
+Route::get('/users/{id}/edittrans', [TransactionController::class, 'edit']);
+// Update transaction
+Route::put('/users/{id}', [TransactionController::class, 'update']);
+// Delete transaction
+Route::delete('/users/{id}', [TransactionController::class, 'destroy']);
 
-    return redirect('/')->with('success', 'User created successfully!');
-});
-
-//SHOW
-Route::get('/profile', function () {
-    $users = User::all();
-    return view('profile', compact('users'));
-});
-
-// Show the Edit Form
-Route::get('/users/{id}/edit', function ($id) {
-    $user = User::findOrFail($id); // Fetch the user by ID
-    return view('edit', compact('user')); // Pass user data to the view
-});
-
-// Update the User
-Route::put('/users/{id}', function (Request $request, $id) {
-    $request->validate([
-        'name' => 'required|string|max:255',
-        'email' => 'required|email|unique:users,email,' . $id,
-    ]);
-
-    $user = User::findOrFail($id);
-    $user->update([
-        'name' => $request->input('name'),
-        'email' => $request->input('email'),
-    ]);
-
-    return redirect('/profile')->with('success', 'User updated successfully!');
-});
-
-//DELETE user
-Route::delete('/users/{id}', function ($id) {
-    $user = User::findOrFail($id);
-    $user->delete();
-    return redirect('/profile')->with('success', 'User deleted successfully!');
-});
-
-
-
-//show in dropdown
-Route::get('/trans', function () {
-    $users = User::all();
-    return view('trans', compact('users'));
-});
-
-//show transaction
-Route::get('/viewtrans', function () {
-    $users = Transac::all();
-    return view('viewtrans', compact('users'));
-});
-
-
-//Store transaction
-Route::post('/trans/store', function (Request $request) {
-    $request->validate([
-        'name' => 'required|string|max:255',
-        'details'=>'required',
-    ]);
-
-    Transac::create([
-        'name' => $request->input('name'),
-        'details' => $request->input('details'),
-        
-    ]);
-
-    return redirect('trans')->with('success', 'User created successfully!');
-});
-
-//edit transaction
-Route::get('/users/{id}/edittrans', function ($id) {
-    $user = Transac::findOrFail($id); // Fetch the user by ID
-    return view('edittrans', compact('user')); // Pass user data to the view
-});
-
-// Update the transaction
-Route::put('/users/{id}', function (Request $request, $id) {
-    $request->validate([
-        'name' => 'required|string|max:255',
-        'details' => 'required' ,
-    ]);
-
-    $user = Transac::findOrFail($id);
-    $user->update([
-        'name' => $request->input('name'),
-        'details' => $request->input('details'),
-    ]);
-
-    return redirect('/viewtrans')->with('success', 'U updated successfully!');
-});
-
-//delete transaction
-Route::delete('/users/{id}', function ($id) {
-    $user = Transac::findOrFail($id);
-    $user->delete();
-    return redirect('/viewtrans')->with('success', ' deleted successfully!');
-});
+//Details
+Route::get('details/create',[DetailsController::class,'create']);
+Route::post('details/store', [DetailsController::class, 'store'])->name('details.store');
+Route::get('details/index', [DetailsController::class, 'index']);
+Route::get('/users/{id}/details/edit',[DetailsController::class,'edit']);
+Route::put('/users/{id}',[DetailsController::class,'update']);
+Route::get('/users/{userId}/details/user', [DetailsController::class, 'show'])->name('details.show');

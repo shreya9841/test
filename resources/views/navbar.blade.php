@@ -17,6 +17,8 @@
                 <li><a href="profile" class=" hover:text-amber-300 ">Profile</a></li>
                 <li><a href="trans" class=" hover:text-amber-300 ">Transaction</a></li>
                 <li><a href="viewtrans" class=" hover:text-amber-300 ">View Transactions</a></li>
+                <li><a href="details/create" class=" hover:text-amber-300 ">Details</a></li>
+                <li><a href="/details/index" class=" hover:text-amber-300 ">View Details</a></li>
             </ul>
         </nav>
     </div>

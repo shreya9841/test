@@ -11,26 +11,29 @@
 <body>
     @include('navbar')
     <div class="ml-80">
-        <h1>Profile Page</h1>
+        <h1>View all details</h1>
         <div>
             <table class="border border-black  ">
                 <tr>
                     <th class="border border-black px-4 py-2">ID</th>
                     <th class="border border-black px-4 py-2">Name</th>
-                    <th class="border border-black px-4 py-2">Email</th>
+                    <th class="border border-black px-4 py-2">Items</th>
+                    <th class="border border-black px-4 py-2">Amount</th>
                 </tr>
                 @foreach($users as $item)
                 <tr class="border border-black px-4 py-2">
                     <td class="border border-black px-4 py-2">{{$item->id}}</td>
-                    <td class="border border-black px-4 py-2">{{$item->name}}</td>
-                    <td class="border border-black px-4 py-2"> {{$item->email}}</td>
-                    
+                    <td class="border border-black px-4 py-2">{{$item->user_id}} </td>
+                    <td class="border border-black px-4 py-2"> {{$item->item}}</td>
+                    <td class="border border-black px-4 py-2"> {{$item->amount}}</td>
+<!-- 
                     <td class="border border-black px-4 py-2">
                         <a href="{{ url('users/'.$item->id.'/details/user') }}" 
                         class="text-blue-500 hover:underline">View Details</a>
-                    </td>
+                    </td> -->
+
                     <td class="border border-black px-4 py-2">
-                        <a href="{{ url('/users/' . $item->id . '/edit') }}"
+                        <a href="{{ url('/users/' . $item->id . '/details/edit') }}"
                             class="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600">
                             Edit
                         </a>
