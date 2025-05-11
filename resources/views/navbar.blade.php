@@ -12,13 +12,14 @@
         <nav aria-label="Sidebar" class="flex flex-col space-y-8">
             <ul class="space-y-4">
                 <li><a href="/" class=" hover:text-amber-300 ">Home</a></li>
-                <li><a href="about" class=" hover:text-amber-300 ">About</a></li>
-                <li><a href="contact" class=" hover:text-amber-300 ">Contact</a></li>
-                <li><a href="profile" class=" hover:text-amber-300 ">Profile</a></li>
-                <li><a href="trans" class=" hover:text-amber-300 ">Transaction</a></li>
-                <li><a href="viewtrans" class=" hover:text-amber-300 ">View Transactions</a></li>
-                <li><a href="details/create" class=" hover:text-amber-300 ">Details</a></li>
-                <li><a href="/details/index" class=" hover:text-amber-300 ">View Details</a></li>
+                <li><a href="/about" class=" hover:text-amber-300 ">About</a></li>
+                <li><a href="/contact" class=" hover:text-amber-300 ">Contact</a></li>
+                <li><a href="/profile" class=" hover:text-amber-300 ">Profile</a></li>
+                <li><a href="/trans" class=" hover:text-amber-300 ">Transaction</a></li>
+                <li><a href="/viewtrans" class=" hover:text-amber-300 ">View Transactions</a></li>
+                <li><a href="/details/create" class=" hover:text-amber-300 ">Details</a></li>
+                <li><a href="/details" class=" hover:text-amber-300 ">View Details</a></li>
+                <li><a href="#" class=" hover:text-amber-300 ">Items and Amount</a></li>
             </ul>
         </nav>
     </div>

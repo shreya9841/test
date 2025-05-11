@@ -52,9 +52,9 @@ Route::put('/users/{id}', [TransactionController::class, 'update']);
 Route::delete('/users/{id}', [TransactionController::class, 'destroy']);
 
 //Details
-Route::get('details/create',[DetailsController::class,'create']);
+Route::get('/details/create',[DetailsController::class,'create'])->name('details.create');
 Route::post('details/store', [DetailsController::class, 'store'])->name('details.store');
-Route::get('details/index', [DetailsController::class, 'index']);
+Route::get('/details', [DetailsController::class, 'index'])->name('details.index');
 Route::get('/users/{id}/details/edit',[DetailsController::class,'edit']);
-Route::put('/users/{id}',[DetailsController::class,'update']);
+Route::put('/users/{id}/details/update',[DetailsController::class,'update']);
 Route::get('/users/{userId}/details/user', [DetailsController::class, 'show'])->name('details.show');

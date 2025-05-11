@@ -12,45 +12,49 @@
     @include('navbar')
     <div class="ml-80">
         <h1>Edit Details </h1>
-        <form action="{{ url('/users/' . $user->id) }}" method="POST" class="flex flex-col">
-            @csrf
-            @method('PUT')
-            <div id="itemsContainer">
-                <div class="flex gap-4 mb-2">
-                    <input type="text" value="{{ $user->item }}" name="item[]" placeholder="Item" class="border border-gray-900 w-64">
-                    <input type="number" value="{{ $user->amount }}" name="amount[]" placeholder="Amount" class="border border-gray-900 w-64">
-                </div>
+       <form action="{{ url('/users/' . $user->id . '/details/update') }}" method="POST" class="flex flex-col">
+    @csrf
+    @method('PUT')
+
+    <div id="itemsContainer">
+        @foreach ($details as $detail)
+            <div class="flex gap-4 mb-2">
+                <input type="hidden" name="detail_id[]" value="{{ $detail->id }}">
+                <input type="text" value="{{ $detail->item }}" name="item[]" placeholder="Item" class="border border-gray-900 w-64">
+                <input type="number" value="{{ $detail->amount }}" name="amount[]" placeholder="Amount" class="border border-gray-900 w-64">
             </div>
-
-            <button type="button" onclick="addMoreItems()" class="bg-gray-600 text-white text-sm px-3 py-1 rounded hover:bg-gray-800 w-max mb-4">
-                Add More Items
-            </button>
-
-            <button type="submit" class="bg-black text-white text-sm px-3 py-1 rounded hover:bg-gray-800 w-max">
-                Update
-            </button>
-        </form>
+        @endforeach
     </div>
 
-    <script>
-        function addMoreItems() {
-            // Get the container where the items are displayed
-            const container = document.getElementById('itemsContainer');
-            
-            // Create a new div for the item and price input
-            const newItem = document.createElement('div');
-            newItem.classList.add('flex', 'gap-4', 'mb-2');
-            
-            // Create the new input fields
-            newItem.innerHTML = `
-                <input type="text" name="item[]" placeholder="Item" class="border border-gray-900 w-64">
-                <input type="text" name="amount[]" placeholder="Amount" class="border border-gray-900 w-64">
-            `;
-            
-            // Append to the container
-            container.appendChild(newItem);
-        }
-    </script>
+    <button type="button" onclick="addMoreItems()" class="bg-gray-600 text-white text-sm px-3 py-1 rounded hover:bg-gray-800 w-max mb-4">
+        Add More Items
+    </button>
+
+    <button type="submit" class="bg-black text-white text-sm px-3 py-1 rounded hover:bg-gray-800 w-max">
+        Update
+    </button>
+</form>
+
+<script>
+    function addMoreItems() {
+        const container = document.getElementById('itemsContainer');
+        const newItem = document.createElement('div');
+        newItem.classList.add('flex', 'gap-4', 'mb-2');
+        newItem.innerHTML = `
+            <input type="hidden" name="detail_id[]" value="">
+            <input type="text" name="item[]" placeholder="Item" class="border border-gray-900 w-64">
+            <input type="number" name="amount[]" placeholder="Amount" class="border border-gray-900 w-64">
+        `;
+        container.appendChild(newItem);
+    }
+</script>
+
+
+
+
+    </div>
+
+
 </body>
 
 </html>

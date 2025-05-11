@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class DetailsController extends Controller
 {
-    // Show the transaction form with dropdown
+    // Show dropdown
     public function create()
     {
         $users = User::all();
@@ -38,43 +38,67 @@ class DetailsController extends Controller
             ]);
         }
 
-        return redirect('details/create')->with('success', 'Details stored successfully!');
+        return redirect()->route('details.index')->with('success', 'Details stored successfully!');
     }
 
-    public function index(){
-        $users=Detail::all();
-        return view('details/index',compact('users'));
-
+    public function index()
+    {
+        $users = Detail::all();
+        return view('details.index', compact('users'));
     }
 
-    public function edit($id){
-        $user =Detail::findOrFail($id);
-        return view('details/edit', compact('user'));
+    // public function edit($id){
+    //     $user =Detail::findOrFail($id);
+    //     return view('details/edit', compact('user'));
+    // }
+
+    public function edit($id)
+    {
+        $user = User::findOrFail($id); // Find the user
+        $details = Detail::where('user_id', $id)->get(); // Get all their details
+        return view('details.edit', compact('user', 'details'));
     }
 
-    public function update(Request $request,$id){
+
+    public function update(Request $request, $id)
+    {
         $request->validate([
             'item' => 'required|array',
             'amount' => 'required|array',
+            'detail_id' => 'required|array',
             'item.*' => 'required|string',
             'amount.*' => 'required|integer',
         ]);
 
-        $user=Detail::findOrFail($id);
-        $user->update([
-            'item' => $request->input('item'),
-            'amount' =>$request->input('amount'),
-            
+        $items = $request->input('item');
+        $amounts = $request->input('amount');
+        $detailIds = $request->input('detail_id');
 
-        ]);
-        return redirect('details/index')->with('success', 'User updated successfully!');
+        foreach ($items as $index => $item) {
+            if (!empty($detailIds[$index])) {
+                // If the ID exists, update the record
+                $detail = Detail::findOrFail($detailIds[$index]);
+                $detail->update([
+                    'item' => $item,
+                    'amount' => $amounts[$index],
+                ]);
+            } else {
+                // If there is no ID, create a new record
+                Detail::create([
+                    'user_id' => $id,
+                    'item' => $item,
+                    'amount' => $amounts[$index],
+                ]);
+            }
+        }
 
+        return redirect()->route('details.index')->with('success', 'User updated successfully!');
     }
 
-    public function show($userId)
-{
-    $user = User::with('details')->findOrFail($userId);
-    return view('details.user', compact('user'));
-}
 
+    public function show($userId)
+    {
+        $user = User::with('details')->findOrFail($userId);
+        return view('details.user', compact('user'));
+    }
 }

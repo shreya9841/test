@@ -29,6 +29,14 @@
                         <a href="{{ url('users/'.$item->id.'/details/user') }}" 
                         class="text-blue-500 hover:underline">View Details</a>
                     </td>
+
+                    <td class="border border-black px-4 py-2">
+                        <a href="{{ url('/users/' . $item->id . '/details/edit') }}"
+                            class="bg-purple-500 text-white px-2 py-1 rounded hover:bg-purple-600">
+                            Edit items and amount
+                        </a>
+                    </td>
+
                     <td class="border border-black px-4 py-2">
                         <a href="{{ url('/users/' . $item->id . '/edit') }}"
                             class="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600">
@@ -56,3 +64,4 @@
 </body>
 
 </html>
+
