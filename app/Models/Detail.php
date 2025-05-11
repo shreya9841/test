@@ -10,6 +10,6 @@ class Detail extends Model
         'user_id',
         'item',
         'amount',
-               
+        'total_amount',       
     ];
 }

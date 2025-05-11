@@ -29,12 +29,22 @@ class DetailsController extends Controller
         $items = $request->input('item');
         $amount = $request->input('amount');
 
+        // Get the existing total amount for that user
+    $existingTotal = Detail::where('user_id', $userId)->sum('amount');
+    $runningTotal = $existingTotal;
+        
+
         // Loop through items and prices to save each
         foreach ($items as $index => $item) {
+
+            $runningTotal += $amount[$index]; // Update the running total
+
+
             Detail::create([
                 'user_id' => $userId,
                 'item' => $item,
                 'amount' => $amount[$index],
+                'total_amount' => $runningTotal,
             ]);
         }
 
@@ -47,10 +57,6 @@ class DetailsController extends Controller
         return view('details.index', compact('users'));
     }
 
-    // public function edit($id){
-    //     $user =Detail::findOrFail($id);
-    //     return view('details/edit', compact('user'));
-    // }
 
     public function edit($id)
     {

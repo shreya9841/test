@@ -20,12 +20,14 @@
                 <tr>
                     <th class="border border-black px-4 py-2">Item</th>
                     <th class="border border-black px-4 py-2">Amount</th>
+                     <th class="border border-black px-4 py-2">Total</th>
                 </tr>
 
                 @foreach($user->details as $detail)
                 <tr class="border border-black px-4 py-2">
                     <td class="border border-black px-4 py-2">{{ $detail->item }}</td>
                     <td class="border border-black px-4 py-2">{{ $detail->amount }}</td>
+                    <td class="border border-black px-4 py-2">{{ $detail->total_amount }}</td>
                 </tr>
                 @endforeach
             </table>

@@ -58,9 +58,3 @@ Route::get('/details', [DetailsController::class, 'index'])->name('details.index
 Route::get('/users/{id}/details/edit',[DetailsController::class,'edit']);
 Route::put('/users/{id}/details/update',[DetailsController::class,'update']);
 Route::get('/users/{userId}/details/user', [DetailsController::class, 'show'])->name('details.show');
-
-//items
-Route::get('items',function(){
-    return view('items');
-
-});
