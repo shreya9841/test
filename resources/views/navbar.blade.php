@@ -19,7 +19,7 @@
                 <li><a href="/viewtrans" class=" hover:text-amber-300 ">View Transactions</a></li>
                 <li><a href="/details/create" class=" hover:text-amber-300 ">Details</a></li>
                 <li><a href="/details" class=" hover:text-amber-300 ">View Details</a></li>
-                <li><a href="#" class=" hover:text-amber-300 ">Items and Amount</a></li>
+                <li><a href="/items" class=" hover:text-amber-300 ">Items and Amount</a></li>
             </ul>
         </nav>
     </div>

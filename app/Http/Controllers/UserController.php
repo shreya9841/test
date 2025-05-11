@@ -71,4 +71,10 @@ class UserController extends Controller
         $user->delete();
         return redirect('/profile')->with('success', 'User deleted successfully!');
     }
+
+    public function show()
+    {
+        $users = User::all();
+        return view('items', compact('users'));
+    }
 }
