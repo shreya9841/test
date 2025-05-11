@@ -29,24 +29,28 @@ class DetailsController extends Controller
         $items = $request->input('item');
         $amount = $request->input('amount');
 
-        // Get the existing total amount for that user
-    $existingTotal = Detail::where('user_id', $userId)->sum('amount');
-    $runningTotal = $existingTotal;
+        $totalamount=0;
         
 
         // Loop through items and prices to save each
         foreach ($items as $index => $item) {
 
-            $runningTotal += $amount[$index]; // Update the running total
+            $amounts=$amount[$index];
 
 
             Detail::create([
                 'user_id' => $userId,
                 'item' => $item,
-                'amount' => $amount[$index],
-                'total_amount' => $runningTotal,
+                'amount' => $amounts,
+                //'total_amount' => $totalamount,
             ]);
+            $totalamount= $totalamount+$amounts;
+
+            
         }
+        $user=Detail::findOrFail($userId);
+        $user->total_amount=$totalamount;
+        $user->save();
 
         return redirect()->route('details.index')->with('success', 'Details stored successfully!');
     }

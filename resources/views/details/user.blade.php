@@ -20,7 +20,7 @@
                 <tr>
                     <th class="border border-black px-4 py-2">Item</th>
                     <th class="border border-black px-4 py-2">Amount</th>
-                     <th class="border border-black px-4 py-2">Total</th>
+                     <th class="border border-black px-4 py-2">Total amount</th>
                 </tr>
 
                 @foreach($user->details as $detail)

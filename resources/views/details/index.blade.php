@@ -19,6 +19,7 @@
                     <th class="border border-black px-4 py-2">Name</th>
                     <th class="border border-black px-4 py-2">Items</th>
                     <th class="border border-black px-4 py-2">Amount</th>
+                    <th class="border border-black px-4 py-2">Total Amount</th>
                 </tr>
                 @foreach($users as $item)
                 <tr class="border border-black px-4 py-2">
@@ -26,6 +27,7 @@
                     <td class="border border-black px-4 py-2">{{$item->user_id}} </td>
                     <td class="border border-black px-4 py-2"> {{$item->item}}</td>
                     <td class="border border-black px-4 py-2"> {{$item->amount}}</td>
+                    <td class="border border-black px-4 py-2"> {{$item->total_amount}}</td>
 
 
                     

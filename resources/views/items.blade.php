@@ -27,7 +27,7 @@
                     <td class="border border-black px-4 py-2">{{$item->id}}</td>
                     <td class="border border-black px-4 py-2">{{$item->name}}</td>
                     <td class="border border-black px-4 py-2"> {{$item->email}}</td>
-                    <td class="border border-black px-4 py-2"> {{$item->total_amount}}</td>
+                    <td class="border border-black px-4 py-2"> {{$item->email}}</td>
                     
                     <td class="border border-black px-4 py-2">
                         <a href="{{ url('users/'.$item->id.'/details/user') }}" 
@@ -44,6 +44,7 @@
                     
                 </tr>
                 @endforeach
+                
 
 
             </table>
