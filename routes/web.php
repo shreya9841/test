@@ -59,3 +59,6 @@ Route::get('/users/{id}/details/edit',[DetailsController::class,'edit']);
 Route::put('/users/{id}/details/update',[DetailsController::class,'update']);
 Route::get('/users/{userId}/details/user', [DetailsController::class, 'show'])->name('details.show');
 Route::delete('/details/{id}', [DetailsController::class, 'destroy'])->name('details.destroy');
+
+Route::get('/users/{id}/details/pay', [DetailsController::class, 'pay'])->name('details.pay');
+Route::post('/users/{id}/details/pay', [DetailsController::class, 'reduce'])->name('details.reduce');

@@ -12,10 +12,9 @@ class UserController extends Controller
     // Show the list of users
     public function index()
     {
-        // $users = User::all();
-        // return view('profile', compact('users'));
-        $users = User::with('total')->get();
-        return view('items', compact('users'));
+         $users = User::all();
+        return view('profile', compact('users'));
+        
     }
 
     // Show the form to create a new user
@@ -76,7 +75,9 @@ class UserController extends Controller
 
     public function show()
     {
-        $users = User::all();
+        // $users = User::all();
+        // return view('items', compact('users'));
+        $users = User::with('total')->get();
         return view('items', compact('users'));
     }
 }

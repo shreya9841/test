@@ -9,6 +9,7 @@ class Total extends Model
     protected $fillable = [
         'user_id',
         'total_amount',
+        'remaining',
     ];
 
     public function user()

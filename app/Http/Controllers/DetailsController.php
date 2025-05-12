@@ -64,8 +64,8 @@ class DetailsController extends Controller
 
     public function edit($id)
     {
-        $user = User::findOrFail($id); 
-        $details = Detail::where('user_id', $id)->get(); 
+        $user = User::findOrFail($id);
+        $details = Detail::where('user_id', $id)->get();
         return view('details.edit', compact('user', 'details'));
     }
 
@@ -84,9 +84,7 @@ class DetailsController extends Controller
         $amounts = $request->input('amount');
         $detailIds = $request->input('detail_id');
 
-        $totalamount = 0;
-        
-
+        // Loop through items
         foreach ($items as $index => $item) {
             if (!empty($detailIds[$index])) {
                 // If the ID exists, update the record
@@ -103,12 +101,12 @@ class DetailsController extends Controller
                     'amount' => $amounts[$index],
                 ]);
             }
-            $totalamount += $amounts[$index];
         }
-        $userTotal = Total::firstOrNew(['user_id' => $id]);
-        $userTotal->total_amount += $totalamount;
-        $userTotal->save();
 
+        $totalAmount = Detail::where('user_id', $id)->sum('amount');
+        $userTotal = Total::firstOrNew(['user_id' => $id]);
+        $userTotal->total_amount = $totalAmount;
+        $userTotal->save();
 
         return redirect()->to('/items')->with('success', 'User updated successfully!');
     }
@@ -121,20 +119,45 @@ class DetailsController extends Controller
     }
 
     public function destroy($id)
-{
-    $detail = Detail::findOrFail($id);
-    $detail->delete();
+    {
+        $detail = Detail::findOrFail($id);
+        $detail->delete();
 
-    // After deleting, update the total amount in the totals table
-    $userId = $detail->user_id;
-    $totalAmount = Detail::where('user_id', $userId)->sum('amount');
+        // After deleting, update the total amount in the totals table
+        $userId = $detail->user_id;
+        $totalAmount = Detail::where('user_id', $userId)->sum('amount');
 
-    // Update the totals table
-    $userTotal = Total::firstOrNew(['user_id' => $userId]);
-    $userTotal->total_amount = $totalAmount;
-    $userTotal->save();
+        // Update the totals table
+        $userTotal = Total::firstOrNew(['user_id' => $userId]);
+        $userTotal->total_amount = $totalAmount;
+        $userTotal->save();
 
-    return redirect()->back()->with('success', 'Item deleted successfully!');
-}
+        return redirect()->back()->with('success', 'Item deleted successfully!');
+    }
+    public function pay($id)
+    {
+        return view('details.pay', compact('id'));
+    }
+    public function reduce(Request $request, $id)
+    {
+        $reduceAmount = $request->input('pay');
+        $userTotal = Total::where('user_id', $id)->first();
 
+        if ($userTotal) {
+
+            if ($reduceAmount <= $userTotal->total_amount) {
+
+
+                $userTotal->remaining = $userTotal->total_amount - $reduceAmount;
+
+                $userTotal->save();
+            } else {
+                return redirect()->back()->with('error', 'Reduction amount exceeds total balance!');
+            }
+        } else {
+            return redirect()->back()->with('error', 'User not found!');
+        }
+
+        return redirect()->to('/items')->with('success', 'Remaining balance updated successfully!');
+    }
 }
