@@ -12,8 +12,10 @@ class UserController extends Controller
     // Show the list of users
     public function index()
     {
-        $users = User::all();
-        return view('profile', compact('users'));
+        // $users = User::all();
+        // return view('profile', compact('users'));
+        $users = User::with('total')->get();
+        return view('items', compact('users'));
     }
 
     // Show the form to create a new user

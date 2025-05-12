@@ -22,6 +22,17 @@
                 <input type="hidden" name="detail_id[]" value="{{ $detail->id }}">
                 <input type="text" value="{{ $detail->item }}" name="item[]" placeholder="Item" class="border border-gray-900 w-64">
                 <input type="number" value="{{ $detail->amount }}" name="amount[]" placeholder="Amount" class="border border-gray-900 w-64">
+            
+                <form action="{{ route('details.destroy', $detail->id) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" 
+                            onclick="return confirm('Are you sure you want to delete this item?')" 
+                            class="bg-red-500 text-white text-sm px-3 py-1 rounded hover:bg-red-600">
+                            Delete
+                        </button>
+                    </form>
+            
             </div>
         @endforeach
     </div>

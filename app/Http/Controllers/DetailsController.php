@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Total;
 use App\Models\Detail;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -29,13 +30,13 @@ class DetailsController extends Controller
         $items = $request->input('item');
         $amount = $request->input('amount');
 
-        $totalamount=0;
-        
+        $totalamount = 0;
+
 
         // Loop through items and prices to save each
         foreach ($items as $index => $item) {
 
-            $amounts=$amount[$index];
+            $amounts = $amount[$index];
 
 
             Detail::create([
@@ -44,13 +45,12 @@ class DetailsController extends Controller
                 'amount' => $amounts,
                 //'total_amount' => $totalamount,
             ]);
-            $totalamount= $totalamount+$amounts;
-
-            
+            $totalamount = $totalamount + $amounts;
         }
-        $user=Detail::findOrFail($userId);
-        $user->total_amount=$totalamount;
-        $user->save();
+        $userTotal = Total::firstOrNew(['user_id' => $userId]);
+        $userTotal->total_amount += $totalamount;
+        $userTotal->save();
+
 
         return redirect()->route('details.index')->with('success', 'Details stored successfully!');
     }
@@ -64,8 +64,8 @@ class DetailsController extends Controller
 
     public function edit($id)
     {
-        $user = User::findOrFail($id); // Find the user
-        $details = Detail::where('user_id', $id)->get(); // Get all their details
+        $user = User::findOrFail($id); 
+        $details = Detail::where('user_id', $id)->get(); 
         return view('details.edit', compact('user', 'details'));
     }
 
@@ -84,6 +84,9 @@ class DetailsController extends Controller
         $amounts = $request->input('amount');
         $detailIds = $request->input('detail_id');
 
+        $totalamount = 0;
+        
+
         foreach ($items as $index => $item) {
             if (!empty($detailIds[$index])) {
                 // If the ID exists, update the record
@@ -100,15 +103,38 @@ class DetailsController extends Controller
                     'amount' => $amounts[$index],
                 ]);
             }
+            $totalamount += $amounts[$index];
         }
+        $userTotal = Total::firstOrNew(['user_id' => $id]);
+        $userTotal->total_amount += $totalamount;
+        $userTotal->save();
 
-        return redirect()->route('details.index')->with('success', 'User updated successfully!');
+
+        return redirect()->to('/items')->with('success', 'User updated successfully!');
     }
 
 
     public function show($userId)
     {
-        $user = User::with('details')->findOrFail($userId);
+        $user = User::with(['details', 'total'])->findOrFail($userId);
         return view('details.user', compact('user'));
     }
+
+    public function destroy($id)
+{
+    $detail = Detail::findOrFail($id);
+    $detail->delete();
+
+    // After deleting, update the total amount in the totals table
+    $userId = $detail->user_id;
+    $totalAmount = Detail::where('user_id', $userId)->sum('amount');
+
+    // Update the totals table
+    $userTotal = Total::firstOrNew(['user_id' => $userId]);
+    $userTotal->total_amount = $totalAmount;
+    $userTotal->save();
+
+    return redirect()->back()->with('success', 'Item deleted successfully!');
+}
+
 }

@@ -20,17 +20,24 @@
                 <tr>
                     <th class="border border-black px-4 py-2">Item</th>
                     <th class="border border-black px-4 py-2">Amount</th>
-                     <th class="border border-black px-4 py-2">Total amount</th>
+                     <!-- <th class="border border-black px-4 py-2">Total amount</th> -->
                 </tr>
 
                 @foreach($user->details as $detail)
                 <tr class="border border-black px-4 py-2">
                     <td class="border border-black px-4 py-2">{{ $detail->item }}</td>
                     <td class="border border-black px-4 py-2">{{ $detail->amount }}</td>
-                    <td class="border border-black px-4 py-2">{{ $detail->total_amount }}</td>
+                    <!-- <td class="border border-black px-4 py-2">{{ $detail->total_amount }}</td> -->
                 </tr>
                 @endforeach
             </table>
+            <h2 class="font-bold pt-5">Total Amount: 
+                @if($user->total)
+                    {{ $user->total->total_amount }}
+                @else
+                    0
+                @endif
+            </h2>
         @else
             <p class="text-red-500">No items found for this user.</p>
         @endif

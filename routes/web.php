@@ -47,9 +47,9 @@ Route::get('/viewtrans', [TransactionController::class, 'index']);
 // Edit transaction
 Route::get('/users/{id}/edittrans', [TransactionController::class, 'edit']);
 // Update transaction
-Route::put('/users/{id}', [TransactionController::class, 'update']);
+//Route::put('/users/{id}', [TransactionController::class, 'update']);
 // Delete transaction
-Route::delete('/users/{id}', [TransactionController::class, 'destroy']);
+//Route::delete('/users/{id}', [TransactionController::class, 'destroy']);
 
 //Details
 Route::get('/details/create',[DetailsController::class,'create'])->name('details.create');
@@ -58,3 +58,4 @@ Route::get('/details', [DetailsController::class, 'index'])->name('details.index
 Route::get('/users/{id}/details/edit',[DetailsController::class,'edit']);
 Route::put('/users/{id}/details/update',[DetailsController::class,'update']);
 Route::get('/users/{userId}/details/user', [DetailsController::class, 'show'])->name('details.show');
+Route::delete('/details/{id}', [DetailsController::class, 'destroy'])->name('details.destroy');

@@ -50,4 +50,9 @@ class User extends Authenticatable
     {
         return $this-> hasMany(Detail::class);
     }
+
+    public function total()
+    {
+        return $this-> hasOne(Total::class,'user_id');
+    }
 }
