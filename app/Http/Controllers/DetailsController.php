@@ -138,21 +138,24 @@ class DetailsController extends Controller
     {
         return view('details.pay', compact('id'));
     }
+
     public function reduce(Request $request, $id)
     {
         $reduceAmount = $request->input('pay');
         $userTotal = Total::where('user_id', $id)->first();
 
         if ($userTotal) {
+            
+            if (is_null($userTotal->remaining) || $userTotal->remaining == 0.00) {
+                $userTotal->remaining = $userTotal->total_amount;
+            }
 
-            if ($reduceAmount <= $userTotal->total_amount) {
-
-
-                $userTotal->remaining = $userTotal->total_amount - $reduceAmount;
-
+            
+            if ($reduceAmount <= $userTotal->remaining) {
+                $userTotal->remaining -= $reduceAmount;
                 $userTotal->save();
             } else {
-                return redirect()->back()->with('error', 'Reduction amount exceeds total balance!');
+                return redirect()->back()->with('error', 'Reduction amount exceeds remaining balance!');
             }
         } else {
             return redirect()->back()->with('error', 'User not found!');
