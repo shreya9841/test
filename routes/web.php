@@ -61,4 +61,4 @@ Route::get('/users/{userId}/details/user', [DetailsController::class, 'show'])->
 Route::delete('/details/{id}', [DetailsController::class, 'destroy'])->name('details.destroy');
 
 Route::get('/users/{id}/details/pay', [DetailsController::class, 'pay'])->name('details.pay');
-Route::post('/users/{id}/details/pay', [DetailsController::class, 'reduce'])->name('details.reduce');
+Route::post('/users/{id}/details/reduce', [DetailsController::class, 'reduce'])->name('details.reduce');
