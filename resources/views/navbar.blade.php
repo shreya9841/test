@@ -20,6 +20,7 @@
                 <li><a href="/details/create" class=" hover:text-amber-300 ">Details</a></li>
                 <li><a href="/details" class=" hover:text-amber-300 ">View Details</a></li>
                 <li><a href="/items" class=" hover:text-amber-300 ">Items and Amount</a></li>
+                <li><a href="/payment/index" class=" hover:text-amber-300 ">Inventory</a></li>
             </ul>
         </nav>
     </div>

@@ -48,11 +48,16 @@ class User extends Authenticatable
     }
     public function details()
     {
-        return $this-> hasMany(Detail::class);
+        return $this->hasMany(Detail::class);
     }
 
     public function total()
     {
-        return $this-> hasOne(Total::class,'user_id');
+        return $this->hasOne(Total::class, 'user_id');
+    }
+    
+    public function payment()
+    {
+        return $this->hasOne(Payment::class);
     }
 }

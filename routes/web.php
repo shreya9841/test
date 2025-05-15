@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\DetailsController;
 use App\Models\Transac;
 use App\Models\User;
@@ -8,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TransactionController;
+use App\Models\Payment;
 
 Route::get('/', function () {
     return view('welcome');
@@ -62,3 +64,9 @@ Route::delete('/details/{id}', [DetailsController::class, 'destroy'])->name('det
 
 Route::get('/users/{id}/details/pay', [DetailsController::class, 'pay'])->name('details.pay');
 Route::post('/users/{id}/details/reduce', [DetailsController::class, 'reduce'])->name('details.reduce');
+
+//Payment
+Route::get('/payment/index', [PaymentController::class, 'index'])->name('payment.index');
+Route::get('/users/{id}/payment/edit',[PaymentController::class,'edit'])->name('payment.edit');
+//Route::get('/payment/{id}/edit',[PaymentController::class,'edit'])->name('payment.edit');
+Route::put('/users/{id}/payment/update',[PaymentController::class,'update'])->name('payment.update');

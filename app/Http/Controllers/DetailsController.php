@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Log;
 use App\Models\Payment;
 use App\Models\Total;
 use App\Models\Detail;
@@ -134,9 +135,24 @@ class DetailsController extends Controller
         return redirect()->back()->with('success', 'Item deleted successfully!');
     }
 
+
+    // public function pay(Request $request, $id)
+    // {
+    //     $paymentMethod = $request->query('payment_method');
+
+    //     if (!$paymentMethod) {
+    //         return redirect()->back()->with('error', 'Payment method is required.');
+    //     }
+
+    //     return view('details.pay', [
+    //         'id' => $id,
+    //         'paymentMethod' => $paymentMethod,
+    //     ]);
+    // }
     public function pay(Request $request, $id)
     {
-        $paymentMethod = $request->query('payment_method');
+
+        $paymentMethod = $request->query('payment_method'); //?? $request->input('payment_method');
 
         if (!$paymentMethod) {
             return redirect()->back()->with('error', 'Payment method is required.');
@@ -148,40 +164,15 @@ class DetailsController extends Controller
         ]);
 
         // return redirect()->to('details/pay')->with('success', 'Payment method saved successfully!');
-        return view('details.pay');
+        return view(
+            'details.pay',
+            [
+                'id' => $id,
+                'paymentMethod' => $paymentMethod,
+            ]
+        );
     }
 
-
-    // public function pay($id)
-    // {
-    //     return view('details.pay', compact('id'));
-
-    // }
-
-    // public function reduce(Request $request, $id)
-    // {
-    //     $reduceAmount = $request->input('pay');
-    //     $userTotal = Total::where('user_id', $id)->first();
-
-    //     if ($userTotal) {
-
-    //         if (is_null($userTotal->remaining) || $userTotal->remaining == 0.00) {
-    //             $userTotal->remaining = $userTotal->total_amount;
-    //         }
-
-
-    //         if ($reduceAmount <= $userTotal->remaining) {
-    //             $userTotal->remaining -= $reduceAmount;
-    //             $userTotal->save();
-    //         } else {
-    //             return redirect()->back()->with('error', 'Reduction amount exceeds remaining balance!');
-    //         }
-    //     } else {
-    //         return redirect()->back()->with('error', 'User not found!');
-    //     }
-
-    //     return redirect()->to('/items')->with('success', 'Remaining balance updated successfully!');
-    // }
     public function reduce(Request $request, $id)
     {
         $reduceAmount = $request->input('pay');
@@ -199,11 +190,17 @@ class DetailsController extends Controller
                 $userTotal->remaining -= $reduceAmount;
                 $userTotal->save();
 
-                // Save the payment method only after form submission
-                Payment::create([
-                    'user_id' => $id,
-                    'payment_method' => $paymentMethod,
-                ]);
+                // Check if payment already exists before creating
+                $existingPayment = Payment::where('user_id', $id)
+                    ->where('payment_method', $paymentMethod)
+                    ->first();
+
+                if (!$existingPayment) {
+                    Payment::create([
+                        'user_id' => $id,
+                        'payment_method' => $paymentMethod,
+                    ]);
+                }
             } else {
                 return redirect()->back()->with('error', 'Reduction amount exceeds remaining balance!');
             }

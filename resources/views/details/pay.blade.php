@@ -20,7 +20,8 @@
                 class="border border-gray-400 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
 
             <!-- Hidden input to capture the selected payment method -->
-            <input type="hidden" name="payment_method" id="paymentMethodInput">
+            <input type="hidden" name="payment_method" id="paymentMethodInput" value="{{ $paymentMethod }}">
+
 
             <button type="submit"
                 class="bg-gray-600 text-white font-medium px-4 py-2 rounded-md hover:bg-gray-700 transition duration-150">

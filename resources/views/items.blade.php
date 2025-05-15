@@ -60,11 +60,12 @@
 
                     <td class="border border-black px-1 py-2">
                         <select
+                       
                             id="paymentMethod"
                             class="border border-gray-300 p-2 rounded"
                             onchange="if(this.value) { 
                             window.location.href = '{{ url('/users/' . $item->id . '/details/pay') }}?payment_method=' + this.value; }">
-                            <option value="">Select Payment Method</option>
+                            <option value=""> Payment Method</option>
                             <option value="Cash">Cash pay</option>
                             <option value="Card">Card pay</option>
                             <option value="Phone">Phone pay</option>
