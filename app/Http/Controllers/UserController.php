@@ -93,15 +93,21 @@ class UserController extends Controller
         return view('recycle', compact('users'));
     }
 
-    // public function deleteall($id)
-    // {
-    //     $user = User::findOrFail($id);
-    //     $user->forceDelete();
-    //     return redirect('/profile')->with('success', 'User deleted successfully!');
-    // }
     public function deleteall()
     {
         User::onlyTrashed()->forceDelete();
         return redirect('/recycle')->with('success', 'All soft-deleted users have been permanently deleted!');
+    }
+
+    public function deleteSelected(Request $request)
+    {
+        $ids = $request->input('user_ids');
+
+        if ($ids) {
+            User::whereIn('id', $ids)->forceDelete();
+            return redirect('/recycle')->with('success', 'Selected users have been permanently deleted!');
+        }
+
+        return redirect('/recycle')->with('error', 'No users selected.');
     }
 }

@@ -41,6 +41,7 @@ Route::get('/items', [UserController::class, 'show']);
 Route::get('/restore/{id}', [UserController::class, 'restore']);
 Route::get('/recycle', [UserController::class, 'recycle']);
 Route::delete('/recycle/delete-all', [UserController::class, 'deleteall']);
+Route::delete('/recycle/delete-selected', [UserController::class, 'deleteSelected']);
 
 
 
