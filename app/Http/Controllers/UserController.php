@@ -12,9 +12,8 @@ class UserController extends Controller
     // Show the list of users
     public function index()
     {
-         $users = User::all();
+        $users = User::all();
         return view('profile', compact('users'));
-        
     }
 
     // Show the form to create a new user
@@ -79,5 +78,30 @@ class UserController extends Controller
         // return view('items', compact('users'));
         $users = User::with('total')->get();
         return view('items', compact('users'));
+    }
+
+    public function restore($id)
+    {
+        $user = User::withTrashed()->find($id);
+        $user->restore();
+        return redirect('/profile')->with('success', 'User deleted successfully!');
+    }
+
+    public function recycle()
+    {
+        $users = User::onlyTrashed()->get();
+        return view('recycle', compact('users'));
+    }
+
+    // public function deleteall($id)
+    // {
+    //     $user = User::findOrFail($id);
+    //     $user->forceDelete();
+    //     return redirect('/profile')->with('success', 'User deleted successfully!');
+    // }
+    public function deleteall()
+    {
+        User::onlyTrashed()->forceDelete();
+        return redirect('/recycle')->with('success', 'All soft-deleted users have been permanently deleted!');
     }
 }

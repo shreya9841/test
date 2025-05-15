@@ -21,6 +21,7 @@
                 <li><a href="/details" class=" hover:text-amber-300 ">View Details</a></li>
                 <li><a href="/items" class=" hover:text-amber-300 ">Items and Amount</a></li>
                 <li><a href="/payment/index" class=" hover:text-amber-300 ">Inventory</a></li>
+                <li><a href="/recycle" class=" hover:text-amber-300 ">Recycle Bin</a></li>
             </ul>
         </nav>
     </div>

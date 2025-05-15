@@ -38,6 +38,12 @@ Route::get('/users/{id}/edit', [UserController::class, 'edit']);
 Route::put('/users/{id}', [UserController::class, 'update']);
 Route::delete('/users/{id}', [UserController::class, 'destroy']);
 Route::get('/items', [UserController::class, 'show']);
+Route::get('/restore/{id}', [UserController::class, 'restore']);
+Route::get('/recycle', [UserController::class, 'recycle']);
+Route::delete('/recycle/delete-all', [UserController::class, 'deleteall']);
+
+
+
 //TRANSACTION
 
 // Display transaction form
